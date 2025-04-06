@@ -209,16 +209,6 @@
   white-space: nowrap;
 }
 
-.original-url:hover {
-  overflow: visible;
-  white-space: normal;
-  background: #fff;
-  z-index: 10;
-  position: absolute;
-  padding: 4px;
-  border: 1px solid #ccc;
-}
-
 .qr-container {
 	margin-top: 2rem;
 	margin-inline: 25rem;
