@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./NotFound.css";
+import "./notfound.css";
 import fourOfour_pic from "../../assets/media/404-com.png";
 
 const NotFound = () => {
