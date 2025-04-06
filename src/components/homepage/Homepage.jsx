@@ -148,7 +148,7 @@ function Homepage({ isUser , setShowLogin}) {
 										className="link"
 										id="link"
 										onClick={() =>
-											window.open(`${API_BASE_SHOW_URL}/${shortUrl}`, "_blank")
+											window.open(`${API_BASE_URL}/${shortUrl}`, "_blank")
 										}
 									>
 										{API_BASE_SHOW_URL}/{shortUrl}
