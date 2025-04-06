@@ -199,12 +199,24 @@
 }
 
 .original-url {
-	/* word-break: break-all; */
-	font-family: monospace;
-	line-height: 1.5;
-	max-height: 1.5rem;
-	display: inline-block;
-	max-width: 55rem;
+  font-family: monospace;
+  line-height: 1.5;
+  max-height: 1.5rem;
+  display: inline-block;
+  max-width: 55rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.original-url:hover {
+  overflow: visible;
+  white-space: normal;
+  background: #fff;
+  z-index: 10;
+  position: absolute;
+  padding: 4px;
+  border: 1px solid #ccc;
 }
 
 .qr-container {
