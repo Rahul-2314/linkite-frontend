@@ -76,7 +76,7 @@ function Mylinks({ profile, loading, error, setIsUser, setShowLogin }) {
 									<p className="sn">{index + 1}.</p>
 									<span className="link">
 										<a
-											href={`${API_BASE_SHOW_URL}/${link.shortUrl}`}
+											href={`${API_BASE_URL}/${link.shortUrl}`}
 											target="_blank"
 											rel="noopener noreferrer"
 										>
