@@ -186,8 +186,9 @@ function Analytics() {
 					</div>
 					<div className="link-value">
 						<a
-							href={`${API_BASE_URL}/${analytics.shortUrl}`}
+							href={`https://${API_BASE_SHOW_URL}/${analytics.shortUrl}`}
 							target="_blank"
+							rel="noopener noreferrer"
 						>
 							{API_BASE_SHOW_URL}/{analytics.shortUrl}
 						</a>
