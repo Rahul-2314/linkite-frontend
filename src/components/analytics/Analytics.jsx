@@ -188,7 +188,7 @@ function Analytics() {
 						<a
 							href={`${API_BASE_URL}/${analytics.shortUrl}`}
 							target="_blank"
-							rel="noopener noreferrer"
+{/* 							rel="noopener noreferrer" */}
 						>
 							{API_BASE_SHOW_URL}/{analytics.shortUrl}
 						</a>
