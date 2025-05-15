@@ -1,27 +1,26 @@
-import { useState, useEffect } from 'react'
-import Navbar from './components/navbar/Navbar'
-import Homepage from './components/homepage/Homepage'
-import Footer from './components/footer/Footer'
-import './App.css'
-import Mylinks from './components/mylinks/Mylinks'
-import About from './components/about/About'
-import Premium from './components/premium/Premium'
-import Signup from './components/signup/Signup'
-import userProfile from './hooks/userProfile'
-import {BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import Analytics from './components/analytics/Analytics'
-import Profile from './components/profile/Profile'
-import Notfound from './components/notfound/Notfound'
+import { useState, useEffect } from "react";
+import Navbar from "./components/navbar/Navbar";
+import Homepage from "./components/homepage/Homepage";
+import Footer from "./components/footer/Footer";
+import "./App.css";
+import Mylinks from "./components/mylinks/Mylinks";
+import About from "./components/about/About";
+import Premium from "./components/premium/Premium";
+import Signup from "./components/signup/Signup";
+import userProfile from "./hooks/userProfile";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import Analytics from "./components/analytics/Analytics";
+import Profile from "./components/profile/Profile";
+import Notfound from "./components/notfound/Notfound";
 
-function App() {
-  const [isUser, setIsUser] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+function AppContent() {
+	const [isUser, setIsUser] = useState(false);
+	const [showLogin, setShowLogin] = useState(false);
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
+	const { profile, loading, error } = userProfile();
 
-  const { profile, loading, error } = userProfile();
-
-  const checkTokenExpiration = () => {
+	const checkTokenExpiration = () => {
 		const token = localStorage.getItem("token");
 		if (token) {
 			const decoded = JSON.parse(atob(token.split(".")[1]));
@@ -33,22 +32,22 @@ function App() {
 			}
 		}
 	};
+
 	const fetchToken = () => {
 		const token = localStorage.getItem("token");
-
-		if(!token) {
+		if (!token) {
 			setIsUser(false);
 			setShowLogin(true);
 		}
-	}
+	};
+
 	useEffect(() => {
 		checkTokenExpiration();
 		fetchToken();
 	}, []);
 
-
-  return (
-		<BrowserRouter>
+	return (
+		<>
 			<Navbar
 				isUser={isUser}
 				setIsUser={setIsUser}
@@ -70,36 +69,49 @@ function App() {
 				<Route
 					path="/mylinks"
 					element={
-						<Mylinks profile={profile} loading={loading} error={error} setIsUser={setIsUser} setShowLogin={setShowLogin}/>
+						<Mylinks
+							profile={profile}
+							loading={loading}
+							error={error}
+							setIsUser={setIsUser}
+							setShowLogin={setShowLogin}
+						/>
 					}
 				/>
-				<Route path="/premium" element={<Premium profile={profile} isUser={isUser} setShowLogin={setShowLogin} />} />
+				<Route
+					path="/premium"
+					element={
+						<Premium
+							profile={profile}
+							isUser={isUser}
+							setShowLogin={setShowLogin}
+						/>
+					}
+				/>
 				<Route path="/mylinks/:shortUrl/analytics" element={<Analytics />} />
 				<Route
 					path="/profile"
 					element={
 						<Profile
-							onClose={() => setShowProfile(false)}
+							onClose={() => {}}
 							fullname={profile.fullname}
 							username={profile.username}
 						/>
 					}
 				/>
-				{/* <Route
-						path="/signup"
-						element={
-							<Signup
-								onClose={() => setShowSignup(false)}
-								setShowLogin={setShowLogin}
-								setIsUser={setIsUser}
-							/>
-						}
-					/> */}
 				<Route path="*" element={<Notfound />} />
 			</Routes>
 			<Footer />
+		</>
+	);
+}
+
+function App() {
+	return (
+		<BrowserRouter>
+			<AppContent />
 		</BrowserRouter>
 	);
 }
 
-export default App
+export default App;
