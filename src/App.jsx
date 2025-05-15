@@ -8,16 +8,17 @@ import About from "./components/about/About";
 import Premium from "./components/premium/Premium";
 import Signup from "./components/signup/Signup";
 import userProfile from "./hooks/userProfile";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Analytics from "./components/analytics/Analytics";
 import Profile from "./components/profile/Profile";
 import Notfound from "./components/notfound/Notfound";
 
-function AppContent() {
+function App() {
 	const [isUser, setIsUser] = useState(false);
 	const [showLogin, setShowLogin] = useState(false);
 
 	const navigate = useNavigate();
+
 	const { profile, loading, error } = userProfile();
 
 	const checkTokenExpiration = () => {
@@ -32,15 +33,14 @@ function AppContent() {
 			}
 		}
 	};
-
 	const fetchToken = () => {
 		const token = localStorage.getItem("token");
+
 		if (!token) {
 			setIsUser(false);
 			setShowLogin(true);
 		}
 	};
-
 	useEffect(() => {
 		checkTokenExpiration();
 		fetchToken();
@@ -93,24 +93,26 @@ function AppContent() {
 					path="/profile"
 					element={
 						<Profile
-							onClose={() => {}}
-							fullname={profile?.fullname || ''}
-							username={profile?.username || ''}
+							onClose={() => setShowProfile(false)}
+							fullname={profile.fullname}
+							username={profile.username}
 						/>
 					}
 				/>
+				{/* <Route
+						path="/signup"
+						element={
+							<Signup
+								onClose={() => setShowSignup(false)}
+								setShowLogin={setShowLogin}
+								setIsUser={setIsUser}
+							/>
+						}
+					/> */}
 				<Route path="*" element={<Notfound />} />
 			</Routes>
 			<Footer />
 		</>
-	);
-}
-
-function App() {
-	return (
-		<BrowserRouter>
-			<AppContent />
-		</BrowserRouter>
 	);
 }
 
