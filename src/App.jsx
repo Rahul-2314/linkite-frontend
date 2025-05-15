@@ -94,8 +94,8 @@ function AppContent() {
 					element={
 						<Profile
 							onClose={() => {}}
-							fullname={profile.fullname}
-							username={profile.username}
+							fullname={profile?.fullname || ''}
+							username={profile?.username || ''}
 						/>
 					}
 				/>
