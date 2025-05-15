@@ -8,7 +8,7 @@ import About from './components/about/About'
 import Premium from './components/premium/Premium'
 import Signup from './components/signup/Signup'
 import userProfile from './hooks/userProfile'
-import {Routes, Route, useNavigate } from "react-router-dom";
+import {BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Analytics from './components/analytics/Analytics'
 import Profile from './components/profile/Profile'
 import Notfound from './components/notfound/Notfound'
@@ -48,7 +48,7 @@ function App() {
 
 
   return (
-		<>
+		<BrowserRouter>
 			<Navbar
 				isUser={isUser}
 				setIsUser={setIsUser}
@@ -98,7 +98,7 @@ function App() {
 				<Route path="*" element={<Notfound />} />
 			</Routes>
 			<Footer />
-		</>
+		</BrowserRouter>
 	);
 }
 
