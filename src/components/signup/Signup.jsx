@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 import { loginUser, registerUser , findUser } from "../../services/api"; 
 import otpGenerator from "otp-generator";
 import "./signup.css";
@@ -55,21 +54,25 @@ function Signup({ onClose , setShowLogin , setIsUser }) {
 			setLoading(false);
 			return;
 		}
+
 		if (!validateEmail(username)) {
 			toast.error("Enter a valid email!");
 			setLoading(false);
 			return;
 		}
+
 		if (password1 !== password2) {
 			toast.error("Passwords do not match!");
 			setLoading(false);
 			return;
 		}
-		if(fullName.length >= 20){
+
+		if (fullName.length >= 20) {
 			toast.warn("Fullname should less than 20 characters");
 			setLoading(false);
 			return;
 		}
+
 		if (!validatePassword(password1)) {
 			toast.error(
 				"Password must contain at least 1 uppercase letter, 1 number, and 1 special character!"
@@ -84,39 +87,39 @@ function Signup({ onClose , setShowLogin , setIsUser }) {
 			return;
 		}
 
-		// Generate OTP and Send Email
+		// Generate OTP
 		const otpCode = generateOtp();
 		setGeneratedOtp(otpCode);
 
 		try {
-			await emailjs
-				.send(
-					"service_alh3g2l",
-					"template_jylel9m",
-					{
-						user_email: username,
-						user_name: fullName,
-						otp: otpCode,
-					},
-					"RrmlrFRTpTytzK3DT"
-				)
-				.then(
-					(result) => {
-						console.log(result.text);
-					},
-					(error) => {
-						console.log(error.text);
-					}
-				);
+			const response = await fetch("http://localhost:5000/api/send-otp", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email: username,
+					name: fullName,
+					otp: otpCode,
+				}),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				throw new Error(data.message || "Failed to send OTP");
+			}
+
 			toast.success("OTP sent to your email!");
 			setIsOtp(true);
 		} catch (error) {
+			console.error(error);
 			toast.error("Failed to send OTP. Please try again.");
 		} finally {
 			setLoading(false);
 		}
 	};
-
+	
 	// handle registration
 	const handleSubmit = async (e) => {
 		e.preventDefault();
