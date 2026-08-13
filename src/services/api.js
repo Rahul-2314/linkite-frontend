@@ -158,6 +158,27 @@ export const registerUser = async (fullname, username, password) => {
 	}
 };
 
+// send OTP
+export const sendOtp = async (email, name, otp) => {
+	try {
+		const response = await apiClient.post("/api/send-otp", {
+			email,
+			name,
+			otp,
+		});
+
+		return response.data;
+	} catch (error) {
+		const errorMessage =
+			error.response?.data?.message ||
+			error.response?.data?.msg ||
+			error.message ||
+			"Failed to send OTP";
+
+		throw new Error(errorMessage);
+	}
+};
+
 // find user
 export const findUser = async (username) => {
 	try {
