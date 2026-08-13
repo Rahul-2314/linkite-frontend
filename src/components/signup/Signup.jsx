@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { loginUser, registerUser , findUser } from "../../services/api"; 
+import { loginUser, registerUser , findUser, sendOtp } from "../../services/api"; 
 import otpGenerator from "otp-generator";
 import "./signup.css";
 
@@ -92,32 +92,16 @@ function Signup({ onClose , setShowLogin , setIsUser }) {
 		setGeneratedOtp(otpCode);
 
 		try {
-			const response = await fetch("http://localhost:5000/api/send-otp", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					email: username,
-					name: fullName,
-					otp: otpCode,
-				}),
-			});
+	await sendOtp(username, fullName, otpCode);
 
-			const data = await response.json();
-
-			if (!response.ok) {
-				throw new Error(data.message || "Failed to send OTP");
-			}
-
-			toast.success("OTP sent to your email!");
-			setIsOtp(true);
-		} catch (error) {
-			console.error(error);
-			toast.error("Failed to send OTP. Please try again.");
-		} finally {
-			setLoading(false);
-		}
+	toast.success("OTP sent to your email!");
+	setIsOtp(true);
+} catch (error) {
+	console.error(error);
+	toast.error(error.message || "Failed to send OTP. Please try again.");
+} finally {
+	setLoading(false);
+}
 	};
 	
 	// handle registration
